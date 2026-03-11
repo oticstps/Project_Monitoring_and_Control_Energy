@@ -6,6 +6,18 @@ pytesseract>=0.3.10
 mss>=9.0.1
 
 
+
+https://pv.listrindo.com/otics/0_dashboard.php?menuItemId=1 
+
+Username : otics
+Password : Listrindo2025!
+
+https://sg5.fusionsolar.huawei.com/pvmswebsite/login/build/index.html
+
+Username : KemalOTICS
+Password : q495tofa
+
+
 #!/usr/bin/env python3
 """
 Solar Panel Dashboard Monitor
