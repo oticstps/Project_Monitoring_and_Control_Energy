@@ -1,6 +1,10 @@
 # python solar_monitor.py
 # pip install -r requirements.txt
 
+Pillow>=10.0.0
+pytesseract>=0.3.10
+mss>=9.0.1
+
 
 #!/usr/bin/env python3
 """
