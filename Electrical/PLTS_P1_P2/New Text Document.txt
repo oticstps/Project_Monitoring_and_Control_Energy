@@ -1,0 +1,39 @@
+(env311) D:\on\Project_Monitoring_Energy_Listrik\project_plts>python plts.py      
+=== MEMULAI MULTI-PLANT EXTRACTION SYSTEM ===
+Membuka Browser untuk Plant 1 (Otics Listrindo)...
+Traceback (most recent call last):
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\env311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 67, in _binary_paths
+    output = SeleniumManager().binary_paths(self._to_args())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\env311\Lib\site-packages\selenium\webdriver\common\selenium_manager.py", line 55, in binary_paths
+    return self._run(args)
+           ^^^^^^^^^^^^^^^
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\env311\Lib\site-packages\selenium\webdriver\common\selenium_manager.py", line 154, in _run
+    raise WebDriverException(
+selenium.common.exceptions.WebDriverException: Message: Unsuccessful command executed: D:\on\Project_Monitoring_Energy_Listrik\project_plts\env311\Lib\site-packages\selenium\webdriver\common\windows\selenium-manager.exe --browser chrome --language-binding python --output json; code: 65
+{'code': 65, 'message': 'error decoding response body for url (https://storage.googleapis.com/chrome-for-testing-public/150.0.7871.24/win64/chrome-win64.zip)', 'driver_path': '', 'browser_path': ''}
+
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\plts.py", line 345, in <module>
+    main()
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\plts.py", line 145, in main
+    driver_otics = setup_browser()
+                   ^^^^^^^^^^^^^^^
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\plts.py", line 138, in setup_browser
+    return webdriver.Chrome(options=chrome_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\env311\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 45, in __init__
+    super().__init__(
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\env311\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 50, in __init__
+    if finder.get_browser_path():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\env311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 47, in get_browser_path
+    return self._binary_paths()["browser_path"]
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\on\Project_Monitoring_Energy_Listrik\project_plts\env311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 78, in _binary_paths
+    raise NoSuchDriverException(msg) from err
+selenium.common.exceptions.NoSuchDriverException: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
