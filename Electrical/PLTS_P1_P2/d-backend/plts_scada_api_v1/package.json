@@ -1,0 +1,21 @@
+{
+  "name": "multi-plant-scada-api",
+  "version": "1.1.0",
+  "private": true,
+  "description": "REST API dinamis untuk latest_scada_data.json dan multi_plant_data_YYYY-MM-DD.json",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "check": "node --check app.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0"
+  }
+}
