@@ -30,10 +30,10 @@ WIB = timezone(timedelta(hours=7))
 # KONFIGURASI PLANT 1 - OTICS LISTRINDO
 # ==============================================================================
 
-URL_OTICS = "http://pv.listrindo.com/otics/0_dashboard.php?menuItemId=1"
+URL_OTICS = "https://pv.listrindo.com/otics/0_dashboard.php?menuItemId=1"
 
-AKUN_OTICS_USER = os.getenv("OTICS_USER", "")
-AKUN_OTICS_PASS = os.getenv("OTICS_PASS", "")
+AKUN_OTICS_USER = "otics"
+AKUN_OTICS_PASS = "Listrindo2025!"
 
 XPATH_OTICS_CHECKBOX = '//*[@id="ackCheckbox"]'
 XPATH_OTICS_TOMBOL_OK = '//*[@id="okButton"]'
@@ -61,6 +61,8 @@ TARGET_DATA_OTICS = {
 # KONFIGURASI PLANT 2 - HUAWEI FUSIONSOLAR
 # ==============================================================================
 
+URL_HUAWEI_LOGIN = "https://sg5.fusionsolar.huawei.com/pvmswebsite/login/build/index.html"
+
 URL_HUAWEI = (
     "https://sg5.fusionsolar.huawei.com/uniportal/pvmswebsite/assets/build/"
     "cloud.html?app-id=smartpvms&instance-id=smartpvms"
@@ -70,8 +72,8 @@ URL_HUAWEI = (
 
 STATION_DN_HUAWEI = "NE=51731330"
 
-AKUN_HUAWEI_USER = os.getenv("HUAWEI_USER", "")
-AKUN_HUAWEI_PASS = os.getenv("HUAWEI_PASS", "")
+AKUN_HUAWEI_USER = "KemalOTICS"
+AKUN_HUAWEI_PASS = "q495tofa"
 
 XPATH_HUAWEI_USER = '//*[@id="username"]/input'
 XPATH_HUAWEI_PASS = '//*[@id="password"]/input'
@@ -113,11 +115,11 @@ HUAWEI_DECIMAL_FIELDS = {
 # ==============================================================================
 
 DB_CONFIG = {
-    "host": os.getenv("DB_HOST", "localhost"),
-    "port": int(os.getenv("DB_PORT", "3306")),
-    "user": os.getenv("DB_USER", "otics_tps"),
-    "password": os.getenv("DB_PASSWORD", ""),
-    "database": os.getenv("DB_NAME", "database_tps_master"),
+    "host": "localhost",
+    "port": 3306,
+    "user": "otics_tps",
+    "password": "sukatno_ali",
+    "database": "database_tps_master",
     "charset": "utf8mb4",
     "use_unicode": True,
     "autocommit": False,
@@ -131,10 +133,10 @@ DB_TABLE = "plts_plant_1_plant_2"
 # KONFIGURASI SISTEM
 # ==============================================================================
 
-INTERVAL_SECONDS = int(os.getenv("INTERVAL_SECONDS", "300"))
-PAGE_LOAD_TIMEOUT = int(os.getenv("PAGE_LOAD_TIMEOUT", "90"))
-ELEMENT_TIMEOUT = int(os.getenv("ELEMENT_TIMEOUT", "15"))
-HEADLESS_ENV = os.getenv("HEADLESS")
+INTERVAL_SECONDS = 300
+PAGE_LOAD_TIMEOUT = 90
+ELEMENT_TIMEOUT = 15
+HEADLESS = True
 
 
 # ==============================================================================
@@ -322,31 +324,13 @@ def save_to_json(new_data):
 # BROWSER
 # ==============================================================================
 
-def _cari_executable(env_name, candidates):
-    """
-    Mencari executable melalui environment variable, PATH,
-    dan beberapa lokasi umum Windows/Linux.
-    """
-    env_value = os.getenv(env_name)
-
-    if env_value:
-        expanded = os.path.abspath(os.path.expanduser(env_value))
-
-        if os.path.isfile(expanded) and os.access(expanded, os.X_OK):
-            return expanded
-
-        raise RuntimeError(
-            f"{env_name} menunjuk ke file yang tidak ditemukan "
-            f"atau tidak executable: {expanded}"
-        )
-
+def _cari_executable(candidates):
+    """Mencari executable dari PATH dan lokasi umum Windows/Linux."""
     for candidate in candidates:
         if not candidate:
             continue
 
-        expanded_candidate = os.path.expandvars(
-            os.path.expanduser(candidate)
-        )
+        expanded_candidate = os.path.expanduser(candidate)
 
         if os.path.sep in expanded_candidate or "/" in expanded_candidate:
             resolved = expanded_candidate
@@ -365,68 +349,58 @@ def _cari_executable(env_name, candidates):
 
 def setup_browser(nama_browser):
     """
-    Membuat Chrome/Chromium WebDriver.
-
-    Jika ChromeDriver lokal ditemukan, program menggunakannya.
-    Jika tidak, Selenium Manager akan mencoba mencari driver otomatis.
+    Membuat Chrome/Chromium WebDriver tanpa environment variable.
+    Jika ChromeDriver lokal tidak ditemukan, Selenium Manager digunakan.
     """
-    program_files = os.getenv("PROGRAMFILES", r"C:\Program Files")
-    program_files_x86 = os.getenv(
-        "PROGRAMFILES(X86)",
-        r"C:\Program Files (x86)",
-    )
-    local_app_data = os.getenv(
-        "LOCALAPPDATA",
+    program_files = r"C:\Program Files"
+    program_files_x86 = r"C:\Program Files (x86)"
+    local_app_data = os.path.join(
         os.path.expanduser("~"),
+        "AppData",
+        "Local",
     )
 
-    browser_path = _cari_executable(
-        "CHROMIUM_BINARY",
-        [
-            "chromium-browser",
-            "chromium",
-            "google-chrome",
-            "google-chrome-stable",
-            "chrome",
-            "/snap/bin/chromium",
-            "/usr/bin/chromium-browser",
-            "/usr/bin/chromium",
-            "/usr/bin/google-chrome",
-            os.path.join(
-                program_files,
-                "Google",
-                "Chrome",
-                "Application",
-                "chrome.exe",
-            ),
-            os.path.join(
-                program_files_x86,
-                "Google",
-                "Chrome",
-                "Application",
-                "chrome.exe",
-            ),
-            os.path.join(
-                local_app_data,
-                "Google",
-                "Chrome",
-                "Application",
-                "chrome.exe",
-            ),
-        ],
-    )
+    browser_path = _cari_executable([
+        "chromium-browser",
+        "chromium",
+        "google-chrome",
+        "google-chrome-stable",
+        "chrome",
+        "/snap/bin/chromium",
+        "/usr/bin/chromium-browser",
+        "/usr/bin/chromium",
+        "/usr/bin/google-chrome",
+        os.path.join(
+            program_files,
+            "Google",
+            "Chrome",
+            "Application",
+            "chrome.exe",
+        ),
+        os.path.join(
+            program_files_x86,
+            "Google",
+            "Chrome",
+            "Application",
+            "chrome.exe",
+        ),
+        os.path.join(
+            local_app_data,
+            "Google",
+            "Chrome",
+            "Application",
+            "chrome.exe",
+        ),
+    ])
 
-    driver_path = _cari_executable(
-        "CHROMEDRIVER_PATH",
-        [
-            "chromedriver",
-            "chromium.chromedriver",
-            "/usr/bin/chromedriver",
-            "/snap/bin/chromium.chromedriver",
-            "/usr/lib/chromium-browser/chromedriver",
-            "/usr/lib/chromium/chromedriver",
-        ],
-    )
+    driver_path = _cari_executable([
+        "chromedriver",
+        "chromium.chromedriver",
+        "/usr/bin/chromedriver",
+        "/snap/bin/chromium.chromedriver",
+        "/usr/lib/chromium-browser/chromedriver",
+        "/usr/lib/chromium/chromedriver",
+    ])
 
     chrome_options = Options()
 
@@ -441,18 +415,12 @@ def setup_browser(nama_browser):
     chrome_options.add_argument("--disable-notifications")
     chrome_options.add_argument("--disable-popup-blocking")
 
-    headless = (
-        HEADLESS_ENV != "0"
-        if HEADLESS_ENV is not None
-        else not bool(os.getenv("DISPLAY")) and sys.platform != "win32"
-    )
-
-    if headless:
+    if HEADLESS:
         chrome_options.add_argument("--headless=new")
 
     log(f"{nama_browser} - Chromium: {browser_path or 'otomatis'}")
     log(f"{nama_browser} - ChromeDriver: {driver_path or 'Selenium Manager'}")
-    log(f"{nama_browser} - Headless: {headless}")
+    log(f"{nama_browser} - Headless: {HEADLESS}")
 
     service = (
         Service(executable_path=driver_path)
@@ -469,7 +437,6 @@ def setup_browser(nama_browser):
     driver.set_script_timeout(20)
 
     return driver
-
 
 def cari_elemen_opsional(driver, xpath, timeout=5):
     try:
@@ -555,10 +522,10 @@ def buka_dan_login_otics(driver):
 # ==============================================================================
 
 def buka_dan_login_huawei(driver):
-    log(f"Plant 2 mengakses {URL_HUAWEI}")
-    driver.get(URL_HUAWEI)
+    log(f"Plant 2 mengakses halaman login {URL_HUAWEI_LOGIN}")
+    driver.get(URL_HUAWEI_LOGIN)
 
-    time.sleep(15)
+    time.sleep(10)
 
     input_user = cari_elemen_opsional(
         driver,
@@ -582,7 +549,11 @@ def buka_dan_login_huawei(driver):
         log("Plant 2 kredensial login dikirim.")
         time.sleep(18)
     else:
-        log("Plant 2 form login tidak ditemukan. Diasumsikan sudah masuk.")
+        log("Plant 2 form login tidak ditemukan. Mencoba sesi aktif.")
+
+    log(f"Plant 2 membuka halaman overview {URL_HUAWEI}")
+    driver.get(URL_HUAWEI)
+    time.sleep(18)
 
 
 # ==============================================================================
@@ -943,7 +914,7 @@ def validasi_konfigurasi():
     ]
 
     if kosong:
-        log("Environment variable berikut belum diisi:")
+        log("Konfigurasi berikut belum diisi:")
 
         for nama in kosong:
             print(f"  - {nama}")
