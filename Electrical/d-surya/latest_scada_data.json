@@ -1,0 +1,33 @@
+{
+    "timestamp": "2026-08-06 13:09:46",
+    "plant_1_otics": {
+        "Power": "Error",
+        "Phase_1_INV1": "Error",
+        "Phase_1_INV2": "Error",
+        "PV_ENERGY_Today": "Error",
+        "PV_ENERGY_Monthly": "Error",
+        "PV_ENERGY_Total": "Error",
+        "Irradiation": "Error",
+        "PR": "Error",
+        "WEATHER_FOR_CIKARANG_TEMP": "Error",
+        "WEATHER_FOR_CIKARANG_DATE": "Error",
+        "CO2_Reduced": "Error",
+        "STATUS": "Error",
+        "COMM_MONITORING_last": "Error"
+    },
+    "plant_2_huawei": {
+        "Temperature": "Error",
+        "Yield_Today": "510.85",
+        "Supply_From_Grid_Today": "4.44",
+        "Total_Yield": "482.68",
+        "Inverter_Rated_Power": "155.00",
+        "Installed_PV_Capacity": "Error",
+        "Standard_Coal_Saved": "192.57",
+        "CO2_Avoided": "228.68",
+        "EquivalentTrees_Planted": "313",
+        "PV output (kW)": "46.044",
+        "Mains power (kW)": "499.325",
+        "Irradiance (W/m2)": "282.100",
+        "Consumed by appliances (kW)": "545.369"
+    }
+}
